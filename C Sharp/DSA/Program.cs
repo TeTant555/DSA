@@ -13,8 +13,8 @@ class Program
 
     static void Solve()
     {
-        int input = 1999;
-        string result = Roman(input);
+        List<string> input = new List<string> {};        
+        string result = Likes(input.ToArray());
         Console.WriteLine(result);
     }
 
@@ -114,4 +114,30 @@ class Program
 
         return romanResult;
 	}
+
+    static string Likes(string[] name)
+    {
+        if (name == null || name.Length == 0)
+        {
+            return "no one likes this";
+        }
+        else if (name.Length == 1)
+        {
+            return $"{name[0]} likes this";
+        } 
+        else if (name.Length == 2)
+        {
+            return $"{name[0]} and {name[1]} like this";
+        }
+        else if (name.Length == 3)
+        {
+            return $"{name[0]}, {name[1]} and {name[2]} like this";
+        }
+        else if (name.Length > 3)
+        {
+            return $"{name[0]}, {name[1]} and {name.Length - 2} others like this";
+        }
+
+        return string.Empty;
+    }
 }
