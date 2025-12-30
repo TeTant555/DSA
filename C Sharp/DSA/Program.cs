@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 class Program
 {
@@ -13,10 +14,11 @@ class Program
 
     static void Solve()
     {
-        List<string> input = new List<string> {};        
-        string result = Likes(input.ToArray());
+        List<int> input = new List<int> { 1, 2, 4, 5 };        
+        int result = FindMissing(input);
         Console.WriteLine(result);
     }
+
 
     static string ToCamelCase(string str)
     {
@@ -139,5 +141,46 @@ class Program
         }
 
         return string.Empty;
+    }
+
+    static bool isPrime(int n)
+    {
+        if (n <= 1) return false;
+        if (n == 2) return true;
+        if (n % 2 == 0) return false;
+
+        for (int i = 3; i * i <= n; i += 2)
+        {
+            if (n % i == 0)
+                return false;
+        }
+
+        return true;
+    }
+
+    static int FindMissing(List<int> List)
+    {
+        List<int> differences = new List<int>();
+        for (int i = List.Count - 1; i > 0; i--)
+        {
+            int diff = List[i] - List[i - 1];
+            differences.Add(diff);
+        }
+
+        int difference = differences.GroupBy(x => x)
+                                    .First(g => g.Count() > 1)
+                                    .Key;
+
+        int result = 0;
+        foreach (int num in List)
+        {
+            if (!List.Contains(num + difference))
+            {
+                result = num + difference;
+                break;
+            }
+        }
+
+        return result;
     }
 }
